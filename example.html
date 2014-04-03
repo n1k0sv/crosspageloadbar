@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <link media="screen" href="crosspageloadbar.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script type="text/javascript" src="crosspageloadbar.js"></script>
+  </head>
+  <body>
+    <!-- Initialize the library right after the body tag -->
+    <script type="text/javascript">
+      (function() {
+        //initialize the progress bar
+        window.CrossPageLoadBar.init({
+          enable_crossload: false
+        });
+        //the following code is not needed, its just for the sake of emulating
+        //a slow website
+        window.CrossPageLoadBar.show(0).inc(50);
+        setTimeout(function() {
+          window.CrossPageLoadBar.hide();
+        }, 1000 + Math.random() * 2000);
+      })();
+    </script>
+    <div>
+      This is a website
+    </div>
+  </body>
+</html>
