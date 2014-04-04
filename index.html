@@ -9,73 +9,33 @@
 </head>
 <body>
   <script type="text/javascript">
-    (function() {
-      window.CrossPageLoadBar.init({
-        //enable_crossload: true,
-        //enable_pjax: true,
-        //enable_ajax: true,
-        idle_msec: 1,
-      });
-    })();
+    (function() { window.CrossPageLoadBar.init({
+      inc_msec: 1000
+    }); })();
   </script>
   <div>
-    <h3>This is page 1</h3>
-    <a href="page2.html">Go to page 2</a>
-    <p>Adding some pictures to artificially increase page load time, courtesy of <a href="http://lorempixel.com/">LoremPixel</a>:</p>
-    <ul>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/abstract/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/animals/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/business/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/cats/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/city/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/food/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nightlife/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/fashion/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/people/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nature/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/sports/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/technics/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/transport/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/abstract/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/animals/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/business/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/cats/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/city/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/food/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nightlife/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/fashion/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/people/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nature/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/sports/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/technics/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/transport/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/abstract/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/animals/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/business/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/cats/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/city/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/food/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nightlife/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/fashion/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/people/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nature/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/sports/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/technics/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/transport/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/abstract/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/animals/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/business/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/cats/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/city/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/food/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nightlife/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/fashion/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/people/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/nature/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/sports/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/technics/"></li>
-      <li style="float:left"><img src="http://lorempixel.com/300/300/transport/"></li>
-    </ul>
+    <a id="demo-trigger" href="#">Click me</a>
   </div>
+
+  <script type="text/javascript">
+    $(function() {
+      $('#demo-trigger').on('click', function(event) {
+        event.preventDefault();
+        var start = Math.random() * 10;
+        CrossPageLoadBar.show( start );
+        setTimeout(function() {
+          start += Math.random() * 40;
+          CrossPageLoadBar.inc( start );
+          setTimeout(function() {
+            start += Math.random() * 40;
+            CrossPageLoadBar.inc( start );
+            setTimeout(function() {
+              CrossPageLoadBar.hide();
+            }, 200 + Math.random() * 300 );
+          }, 200 + Math.random() * 300 );
+        }, 200 + Math.random() * 300 );
+      });
+    });
+  </script>
 </body>
 </html>
