@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CrossPageLoadBar demo</title>
+  <link rel="stylesheet" href="crosspageloadbar.css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="crosspageloadbar.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    (function() {
+      window.CrossPageLoadBar.init({
+        //enable_crossload: true,
+        //enable_pjax: true,
+        //enable_ajax: true
+      });
+    })();
+  </script>
+  <div>
+    This is page 2
+  </div>
+  <a href="index.html">Go back to page 1</a>
+</body>
+</html>
