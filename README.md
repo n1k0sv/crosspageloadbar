@@ -54,6 +54,8 @@ window.CrossPageLoadBar.init({
 
 ### Example ###
 
+Check out this [demo page](http://nbasili.github.io/crosspageloadbar/) to see it in action. Or try it like this:
+
 ```html
 <html>
   <head>
