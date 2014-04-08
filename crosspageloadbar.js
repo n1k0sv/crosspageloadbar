@@ -1,6 +1,6 @@
 /*
 ┌────────────────────────────────────────────────────────────────────┐
-│ Cross page load bar 0.1 by Nikos Vassiliou                         │
+│ Cross page load bar 0.2 by Nikos Vassiliou                         │
 ├────────────────────────────────────────────────────────────────────┤
 │ https: https://github.com/nbasili/crosspageloadbar                 │
 │ Licensed under the MIT license.                                    │
@@ -40,9 +40,12 @@
       enable_crossload: true,
       enable_ajax: false,
       enable_pjax: false,
+      enable_filedownload: false,
+      filedownload_anchor_selector: null,
       idle_msec: 1500,
       fadeout_msec: 1000,
-      inc_msec: 6000
+      inc_msec: 6000,
+      downloadfile_msec: 1500,
     };
     if (options) {
       for (key in options) {
@@ -67,13 +70,15 @@
       });
       return this;
     };
-    window.CrossPageLoadBar.inc = function(perc) {
+    window.CrossPageLoadBar.inc = function(perc, complete, speed_msec) {
       el_percentage.stop(true, false).animate({
         width: Math.max(window.CrossPageLoadBar._perc(), perc) + '%'
-      }, settings.inc_msec);
+      }, speed_msec || settings.inc_msec, function() {
+        complete && complete(perc);
+      });
       return this;
     };
-    window.CrossPageLoadBar.hide = function() {
+    window.CrossPageLoadBar.hide = function(complete, speed_msec) {
       //reset any timers
       if (timer) {
         clearTimeout(timer);
@@ -83,14 +88,16 @@
       el_percentage.stop(true, false).animate({
         width: '100%'
       });
-      el_container.fadeTo(settings.fadeout_msec, settings.fadeto_opacity, function() {
+      el_container.fadeTo(speed_msec || settings.fadeout_msec, settings.fadeto_opacity, function() {
         el_container.hide();
+        complete && complete();
       });
       return this;
     };
 
     //bind defaults
     if (supported()) {
+      var skip_on_beforeunload = false;
       //bind cross load events
       if (settings.enable_crossload) {
         var oldbeforeunload = window.onbeforeunload;
@@ -98,6 +105,10 @@
           if (oldbeforeunload) {
             var ret = oldbeforeunload();
             if (ret) return ret;
+          }
+          if (skip_on_beforeunload) {
+            skip_on_beforeunload = false;
+            return;
           }
           __timeout(function() {
             window.CrossPageLoadBar.show(0).inc(35);
@@ -152,8 +163,32 @@
           window.CrossPageLoadBar.hide();
         });
       }
+      //bind download selector
+      if (settings.enable_filedownload && settings.filedownload_anchor_selector) {
+        $(document).ready(function() {
+          $(document).delegate(settings.filedownload_anchor_selector, 'click', function(event) {
+            var url = $(this).attr('href');
+            if (!url || (url && !url.length)) {
+              skip_on_beforeunload = true;
+              return;
+            }
+            event && event.preventDefault();
+            //remove previous
+            var hidden_iframe_id = 'crosspageloadbar-hidden-iframe';
+            //create an iframe that will download the file
+            $('#' + hidden_iframe_id).remove();
+            var iframe = document.createElement('iframe');
+            iframe.id = hidden_iframe_id;
+            iframe.style.display = 'none';
+            window.CrossPageLoadBar.show(0).inc(25, function() {
+              window.CrossPageLoadBar.hide();
+            }, settings.downloadfile_msec);
+            iframe.src = url;
+            document.body.appendChild(iframe);
+          });
+        });
+      }
     }
     return this;
   }
 })();
-

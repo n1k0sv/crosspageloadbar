@@ -14,6 +14,23 @@ Works automatically with pjax and jquery ajax calls as well.
 Cross site loading on Safari is disabled as the Safari address bar already
 emulates the purpose of this library.
 
+When you have a link that downloads a file, the window.onbeforeunload event is fired, which
+may lead to an improper appearance of the loading bar. To avoid this just enable the
+"enable_filedownload" settings, and set a selector for your links using the
+"filedownload_anchor_selector" setting, e.g.
+
+```html
+...
+window.CrossPageLoadBar.init({
+   enable_filedownload: true,
+  filedownload_anchor_selector: '.js-filedownload'
+});
+...
+...
+<a class="js-filedownload" href="...">Download file</a>
+...
+```
+
 ### Requirements ###
 jQuery 1.8+
 
@@ -40,6 +57,15 @@ window.CrossPageLoadBar.init({
 
   //Enable pjax support
   enable_pjax: false,
+
+  //Enable file download support
+  enable_filedownload: false,
+
+  //Set a selector for identifying file download links
+  filedownload_anchor_selector: null,
+
+  //Milliseconds of the file download grow effect
+  downloadfile_msec: 1500,
 
   //Milliseconds to wait before the bar is displayed
   idle_msec: 1500,
